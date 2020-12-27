@@ -1,11 +1,11 @@
 $(document).ready(function () {
   "use strict";
 
-  var window_width = $(window).width(),
-    window_height = window.innerHeight,
-    header_height = $(".default-header").height(),
-    header_height_static = $(".site-header.static").outerHeight(),
-    fitscreen = window_height - header_height;
+  // const window_width = $(window).width();
+  const window_height = window.innerHeight;
+  // const header_height = $(".default-header").height();
+  // const header_height_static = $(".site-header.static").outerHeight();
+  // const fitscreen = window_height - header_height;
 
 
   $(".fullscreen").css("height", window_height)
@@ -67,9 +67,9 @@ $(document).ready(function () {
     pointToLayer: (feature, latlng) => {
       return L.circleMarker(latlng, {
         radius: 8,
-        fillColor: "rgb(38, 58, 78)",
-        color: "#cea06c",
-        weight: 1,
+        fillColor: "#cea06c",
+        color: "rgb(38, 58, 78)",
+        weight: 3,
         opacity: .9,
         fillOpacity: 0.8
     });
