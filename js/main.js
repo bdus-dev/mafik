@@ -17,21 +17,21 @@ $(document).ready(function () {
   });
 
 
-
+  const gSat = L.gridLayer.googleMutant({
+		type: "satellite",
+  });
+  
+  const gRoad = L.gridLayer.googleMutant({
+		type: "roadmap",
+  });
+    const osm = L.tileLayer( 'http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+    opacity: 0.8
+  });
   
   const map = L.map('map', {
     scrollWheelZoom: false
   }).setView([35.762732158841366, 59.377916284132489], 5);
-  
-  // L.tileLayer( 'http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-  //      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-  //      opacity: 0.8
-  // }).addTo(map);
-  
-  L.gridLayer.googleMutant({
-		type: "satellite",
-	}).addTo(map);
-
 
   const khorasan = {
     "type": "FeatureCollection",
@@ -74,7 +74,37 @@ $(document).ready(function () {
         fillOpacity: 0.8
     });
   }
-  }).addTo(map);
+  });
+
+  khorasan_layer.addTo(map);
+
   map.fitBounds(khorasan_layer.getBounds());
+
+  gSat.addTo(map);
+
+  L.control.layers({
+    "Google Satellite": gSat,
+    "Google Roadmap": gRoad,
+    "Open Street Maps": osm
+  }, {
+    "Archaeological sites": khorasan_layer
+  }, {
+    collapsed: false
+  }).addTo(map);
+
+  const legend = L.control({ position: "bottomright" });
+  legend.onAdd = () => {
+    const el = L.DomUtil.create("div", "leaflet-control-layers leaflet-control credits");
+    el.innerHTML = `<div class="legend-title">
+        Mission Archéologique Franco-Iranienne dans le Khorasan
+        <br>
+        (Musée du Louvre)
+        <br>
+        Etude GIS dirigée par Rocco Rante
+      </div>
+      <div class="legend-source">&copy; Musée du Louvre. All rights reserved</div>`
+    return el;
+  };
+  legend.addTo(map);
 
 });
